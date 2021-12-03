@@ -18,12 +18,11 @@ import torch.distributed as dist
 import torch.optim.lr_scheduler as lr_scheduler
 from tensorboardX import SummaryWriter
 
-sys.path.append("../")
-from util import config
-from util.s3dis import S3DIS
-from util.common_util import AverageMeter, intersectionAndUnionGPU, find_free_port
-from util.data_util import collate_fn
-from util import transform as t
+from .util import config
+from .util.s3dis import S3DIS
+from .util.common_util import AverageMeter, intersectionAndUnionGPU, find_free_port
+from .util.data_util import collate_fn
+from .util import transform as t
 
 
 def get_parser():
