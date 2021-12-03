@@ -5,6 +5,7 @@ import numpy as np
 import logging
 import argparse
 import shutil
+import sys
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -17,6 +18,7 @@ import torch.distributed as dist
 import torch.optim.lr_scheduler as lr_scheduler
 from tensorboardX import SummaryWriter
 
+sys.path.append("../")
 from util import config
 from util.s3dis import S3DIS
 from util.common_util import AverageMeter, intersectionAndUnionGPU, find_free_port
