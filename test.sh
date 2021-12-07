@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export PYTHONPATH=./
-eval "$(conda shell.bash hook)"
-PYTHON=python
+# export PYTHONPATH=./
+# eval "$(conda shell.bash hook)"
+# PYTHON=python
 
 TEST_CODE=test.py
 
@@ -20,7 +20,7 @@ now=$(date +"%Y%m%d_%H%M%S")
 cp ${config} tool/test.sh tool/${TEST_CODE} ${exp_dir}
 
 #: '
-$PYTHON -u ${exp_dir}/${TEST_CODE} \
+python -u ${exp_dir}/${TEST_CODE} \
   --config=${config} \
   save_folder ${result_dir}/best \
   model_path ${model_dir}/model_best.pth \
@@ -28,7 +28,7 @@ $PYTHON -u ${exp_dir}/${TEST_CODE} \
 #'
 
 #: '
-$PYTHON -u ${exp_dir}/${TEST_CODE} \
+python -u ${exp_dir}/${TEST_CODE} \
   --config=${config} \
   save_folder ${result_dir}/last \
   model_path ${model_dir}/model_last.pth \
