@@ -20,7 +20,7 @@ now=$(date +"%Y%m%d_%H%M%S")
 cp ${config} tool/test.sh tool/${TEST_CODE} ${exp_dir}
 
 #: '
-python -u ${exp_dir}/${TEST_CODE} \
+python -u test.py \
   --config=${config} \
   save_folder ${result_dir}/best \
   model_path ${model_dir}/model_best.pth \
@@ -28,7 +28,7 @@ python -u ${exp_dir}/${TEST_CODE} \
 #'
 
 #: '
-python -u ${exp_dir}/${TEST_CODE} \
+python -u test.py \
   --config=${config} \
   save_folder ${result_dir}/last \
   model_path ${model_dir}/model_last.pth \
