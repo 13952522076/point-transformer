@@ -103,6 +103,9 @@ def main_worker(gpu, ngpus_per_node, argss):
 
     if args.arch == 'pointtransformer_seg_repro':
         from model.pointtransformer.pointtransformer_seg import pointtransformer_seg_repro as Model
+    elif args.arch == 'pointtransformer_seg_ablation':
+        print("Running pointtransformer_seg_ablation")
+        from model.pointtransformer.pointtransformer_ablation import pointtransformer_seg_ablation as Model
     else:
         raise Exception('architecture not supported yet'.format(args.arch))
     model = Model(c=args.fea_dim, k=args.classes)
