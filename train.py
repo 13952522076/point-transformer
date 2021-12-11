@@ -241,6 +241,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (coord, feat, target, offset) in enumerate(train_loader):  # (n, 3), (n, c), (n), (b)
         data_time.update(time.time() - end)
         coord, feat, target, offset = coord.cuda(non_blocking=True), feat.cuda(non_blocking=True), target.cuda(non_blocking=True), offset.cuda(non_blocking=True)
+        print(f"coord shape: {coord.shape}, feat.shape: {feat.shape}, target.shape: {target.shape}, offset.shape: {offset.shape}")
         output = model([coord, feat, offset])
         if target.shape[-1] == 1:
             target = target[:, 0]  # for cls
