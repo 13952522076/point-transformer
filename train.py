@@ -106,6 +106,9 @@ def main_worker(gpu, ngpus_per_node, argss):
     elif args.arch == 'pointtransformer_seg_ablation':
         print("Running pointtransformer_seg_ablation")
         from model.pointtransformer.pointtransformer_ablation import pointtransformer_seg_ablation as Model
+    elif args.arch == 'pointtransformer_seg_simple':
+        print("Running pointtransformer_seg_simple")
+        from model.pointtransformer.pointtransformer_seg import pointtransformer_seg_simple as Model
     else:
         raise Exception('architecture not supported yet'.format(args.arch))
     model = Model(c=args.fea_dim, k=args.classes)
@@ -242,7 +245,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (coord, feat, target, offset) in enumerate(train_loader):  # (n, 3), (n, c), (n), (b)
         data_time.update(time.time() - end)
         coord, feat, target, offset = coord.cuda(non_blocking=True), feat.cuda(non_blocking=True), target.cuda(non_blocking=True), offset.cuda(non_blocking=True)
-        print(f"coord shape: {coord.shape}, feat.shape: {feat.shape}, target.shape: {target.shape}, offset.shape: {offset.shape}, offset is {offset}")
+        # print(f"coord shape: {coord.shape}, feat.shape: {feat.shape}, target.shape: {target.shape}, offset.shape: {offset.shape}, offset is {offset}")
         output = model([coord, feat, offset])
         if target.shape[-1] == 1:
             target = target[:, 0]  # for cls

@@ -23,18 +23,18 @@ class PointTransformerLayer(nn.Module):
         
     def forward(self, pxo) -> torch.Tensor:
         p, x, o = pxo  # (n, 3), (n, c), (b)
-        print(f"p.shape: {p.shape}, x.shape: {x.shape}, o.shape: {o.shape}")
+        # print(f"p.shape: {p.shape}, x.shape: {x.shape}, o.shape: {o.shape}")
         x_q, x_k, x_v = self.linear_q(x), self.linear_k(x), self.linear_v(x)  # (n, c)
-        print(f"x_q shape is {x_q.shape}")
+        # print(f"x_q shape is {x_q.shape}")
         x_k = pointops.queryandgroup(self.nsample, p, p, x_k, None, o, o, use_xyz=True)  # (n, nsample, 3+c)
-        print(f"x_k shape is {x_q.shape}")
+        # print(f"x_k shape is {x_q.shape}")
         x_v = pointops.queryandgroup(self.nsample, p, p, x_v, None, o, o, use_xyz=False)  # (n, nsample, c)
-        print(f"x_v shape is {x_q.shape}")
+        # print(f"x_v shape is {x_q.shape}")
         p_r, x_k = x_k[:, :, 0:3], x_k[:, :, 3:]
         for i, layer in enumerate(self.linear_p): p_r = layer(p_r.transpose(1, 2).contiguous()).transpose(1, 2).contiguous() if i == 1 else layer(p_r)    # (n, nsample, c)
-        print(f"p_r shape is {p_r.shape}")
+        # print(f"p_r shape is {p_r.shape}")
         w = x_k - x_q.unsqueeze(1) + p_r.view(p_r.shape[0], p_r.shape[1], self.out_planes // self.mid_planes, self.mid_planes).sum(2)  # (n, nsample, c)
-        print(f"w shape is {w.shape}")
+        # print(f"w shape is {w.shape}")
         for i, layer in enumerate(self.linear_w): w = layer(w.transpose(1, 2).contiguous()).transpose(1, 2).contiguous() if i % 3 == 0 else layer(w)
         w = self.softmax(w)  # (n, nsample, c)
         n, nsample, c = x_v.shape; s = self.share_planes
@@ -181,4 +181,8 @@ class PointTransformerSeg(nn.Module):
 
 def pointtransformer_seg_repro(**kwargs):
     model = PointTransformerSeg(PointTransformerBlock, [2, 3, 4, 6, 3], **kwargs)
+    return model
+
+def pointtransformer_seg_simple(**kwargs):
+    model = PointTransformerSeg(PointTransformerBlock, [1, 2, 2, 3, 2], **kwargs)
     return model
