@@ -132,7 +132,8 @@ def main_worker(gpu, ngpus_per_node, argss):
         model = torch.nn.parallel.DistributedDataParallel(
             model.cuda(),
             device_ids=[gpu],
-            find_unused_parameters=True if "transformer" in args.arch else False
+            # find_unused_parameters=True if "transformer" in args.arch else False
+            find_unused_parameters=False
         )
 
     else:
@@ -241,7 +242,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (coord, feat, target, offset) in enumerate(train_loader):  # (n, 3), (n, c), (n), (b)
         data_time.update(time.time() - end)
         coord, feat, target, offset = coord.cuda(non_blocking=True), feat.cuda(non_blocking=True), target.cuda(non_blocking=True), offset.cuda(non_blocking=True)
-        print(f"coord shape: {coord.shape}, feat.shape: {feat.shape}, target.shape: {target.shape}, offset.shape: {offset.shape}")
+        print(f"coord shape: {coord.shape}, feat.shape: {feat.shape}, target.shape: {target.shape}, offset.shape: {offset.shape}, offset is {offset}")
         output = model([coord, feat, offset])
         if target.shape[-1] == 1:
             target = target[:, 0]  # for cls
