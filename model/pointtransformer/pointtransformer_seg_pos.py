@@ -14,7 +14,7 @@ class PointTransformerLayer(nn.Module):
         # self.linear_q = nn.Linear(in_planes, mid_planes)
         # self.linear_k = nn.Linear(in_planes, mid_planes)
         # self.linear_v = nn.Linear(in_planes, out_planes)
-        # self.linear_p = nn.Sequential(nn.Linear(3, 3), nn.BatchNorm1d(3), nn.ReLU(inplace=True), nn.Linear(3, out_planes))
+        self.linear_p = nn.Sequential(nn.Linear(3, 3), nn.BatchNorm1d(3), nn.ReLU(inplace=True), nn.Linear(3, out_planes))
         self.linear_w = nn.Sequential(nn.BatchNorm1d(mid_planes), nn.ReLU(inplace=True),
                                     nn.Linear(mid_planes, mid_planes // share_planes),
                                     nn.BatchNorm1d(mid_planes // share_planes), nn.ReLU(inplace=True),
