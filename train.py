@@ -112,6 +112,9 @@ def main_worker(gpu, ngpus_per_node, argss):
     elif args.arch == 'pointtransformer_seg_wopos':
         print("Running pointtransformer_seg_wopos")
         from model.pointtransformer.pointtransformer_seg_wopos import pointtransformer_seg_wopos as Model
+    elif args.arch == 'pointtransformer_seg_pos':
+        print("Running pointtransformer_seg_pos")
+        from model.pointtransformer.pointtransformer_seg_pos import pointtransformer_seg_pos as Model
     else:
         raise Exception('architecture not supported yet'.format(args.arch))
     model = Model(c=args.fea_dim, k=args.classes)
