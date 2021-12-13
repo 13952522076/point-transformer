@@ -32,7 +32,7 @@ class PointTransformerLayer(nn.Module):
         w = p_r.view(p_r.shape[0], p_r.shape[1], self.out_planes // self.mid_planes, self.mid_planes).sum(2)  # (n, nsample, c)
         for i, layer in enumerate(self.linear_w): w = layer(w.transpose(1, 2).contiguous()).transpose(1, 2).contiguous() if i % 3 == 0 else layer(w)
         w = self.softmax(w)  # (n, nsample, c)
-        n, nsample, c = w.shape; s = self.share_planes
+        n, nsample, c = p_r.shape; s = self.share_planes
         # x = ((x_v + p_r).view(n, nsample, s, c // s) * w.unsqueeze(2)).sum(1).view(n, c)
         x = ((p_r).view(n, nsample, s, c // s) * w.unsqueeze(2)).sum(1).view(n, c)
         return x
