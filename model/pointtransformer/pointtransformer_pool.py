@@ -19,13 +19,10 @@ class PointTransformerLayer(nn.Module):
         for i, layer in enumerate(self.linear_p): p_r = layer(p_r.transpose(1, 2).contiguous()).transpose(1, 2).contiguous() if i == 1 else layer(p_r)    # (n, nsample, c)
         x_k = x_k + p_r  # (n, nsample, c)
         if self.pool == "max":
-            print(f"==> using max")
             x_k = torch.max(x_k, dim=1, keepdim=False)[0]
         else:  # avg
-            print(f"==> using avg")
             x_k = torch.mean(x_k, dim=1, keepdim=False)
         if self.substract:
-            print(f"==> using substract")
             x_k = x_k - x
         return x_k
 
