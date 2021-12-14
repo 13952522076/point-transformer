@@ -115,6 +115,15 @@ def main_worker(gpu, ngpus_per_node, argss):
     elif args.arch == 'pointtransformer_seg_pos':
         print("Running pointtransformer_seg_pos")
         from model.pointtransformer.pointtransformer_seg_pos import pointtransformer_seg_pos as Model
+    elif args.arch == 'pointtransformer_pool_maxsub':
+        print("Running pointtransformer_pool_maxsub")
+        from model.pointtransformer.pointtransformer_pool import pointtransformer_pool_maxsub as Model
+    elif args.arch == 'pointtransformer_pool_avgsub':
+        print("Running pointtransformer_pool_avgsub")
+        from model.pointtransformer.pointtransformer_pool import pointtransformer_pool_avgsub as Model
+    elif args.arch == 'pointtransformer_pool_max':
+        print("Running pointtransformer_pool_max")
+        from model.pointtransformer.pointtransformer_pool import pointtransformer_pool_max as Model
     else:
         raise Exception('architecture not supported yet'.format(args.arch))
     model = Model(c=args.fea_dim, k=args.classes)
