@@ -13,7 +13,6 @@ class PointTransformerLayer(nn.Module):
 
     def forward(self, pxo) -> torch.Tensor:
         p, x, o = pxo  # (n, 3), (n, c), (b)
-        x_q, x_k, x_v = self.linear_q(x), self.linear_k(x), self.linear_v(x)  # (n, c)
         x_k = pointops.queryandgroup(self.nsample, p, p, x, None, o, o, use_xyz=True)  # (n, nsample, 3+c)
         p_r, x_k = x_k[:, :, 0:3], x_k[:, :, 3:]
         for i, layer in enumerate(self.linear_p): p_r = layer(p_r.transpose(1, 2).contiguous()).transpose(1, 2).contiguous() if i == 1 else layer(p_r)    # (n, nsample, c)
