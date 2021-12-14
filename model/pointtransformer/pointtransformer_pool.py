@@ -9,6 +9,7 @@ class PointTransformerLayer(nn.Module):
         super().__init__()
         self.pool = pool
         self.substract = substract
+        self.nsample = nsample
         self.linear_p = nn.Sequential(nn.Linear(3, 3), nn.BatchNorm1d(3), nn.ReLU(inplace=True), nn.Linear(3, out_planes))
 
     def forward(self, pxo) -> torch.Tensor:
