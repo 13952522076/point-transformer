@@ -9,7 +9,7 @@ DATA:
   loop: 30
 
 TRAIN:
-  arch: pointtransformer_seg_wopos
+  arch: pointtransformer_seg_simple
   use_xyz: True
   sync_bn: False
   ignore_label: 255
